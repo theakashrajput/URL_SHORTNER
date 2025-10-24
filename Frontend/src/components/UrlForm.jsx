@@ -1,12 +1,14 @@
 import { useState } from "react";
+import { createShortUrl } from "../api/shortUrl.api";
 
-const UrlForm = () => {
+const UrlForm = ({ setShortUrl }) => {
   const [urlInput, seturlInput] = useState("");
 
-  const handleFormSubmit = (e) => {
+  const handleFormSubmit = async (e) => {
     e.preventDefault();
     seturlInput("");
-    console.log(urlInput);
+    const shortUrl = await createShortUrl(urlInput);
+    setShortUrl(shortUrl);
   };
 
   return (
@@ -14,7 +16,10 @@ const UrlForm = () => {
       <h2 className="text-center font-semibold text-2xl md:text-3xl font-[Gilroy] mb-5">
         Url Shortner
       </h2>
-      <form onSubmit={handleFormSubmit} className="flex flex-col gap-3 md:gap-5">
+      <form
+        onSubmit={handleFormSubmit}
+        className="flex flex-col gap-3 md:gap-5"
+      >
         <input
           onChange={(e) => seturlInput(e.target.value)}
           value={urlInput}

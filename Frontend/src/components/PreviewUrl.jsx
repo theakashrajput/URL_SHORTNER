@@ -1,7 +1,7 @@
 import { useRef, useState } from "react";
 import { toast } from "react-toastify";
 
-const PreviewUrl = () => {
+const PreviewUrl = ({ shortUrl }) => {
   const [isCopied, setIsCopied] = useState(false);
 
   const textDivRef = useRef(null);
@@ -42,23 +42,27 @@ const PreviewUrl = () => {
   };
 
   return (
-    <div className="w-[80%] md:w-[60%] xl:w-[40%] flex flex-col gap-3 md:flex-row justify-between items-center p-2 md:p-3 border rounded-sm border-[#dbdbdb]">
-      <div
-        ref={textDivRef}
-        className="scorollbar-hide w-full md:w-[80%] overflow-scroll rounded-sm bg-[#e7e1e1] px-2 py-2"
-      >
-        https://localhost:3000/jnvfdjknvkjndfjkvnk
-      </div>
+    <>
+      {shortUrl && (
+        <div className="w-[80%] md:w-[60%] xl:w-[40%] flex flex-col gap-3 md:flex-row justify-between items-center p-2 md:p-3 border rounded-sm border-[#dbdbdb]">
+          <div
+            ref={textDivRef}
+            className="scorollbar-hide w-full md:w-[80%] overflow-scroll rounded-sm bg-[#e7e1e1] px-2 py-2"
+          >
+            {shortUrl}
+          </div>
 
-      <button
-        onClick={handleCopy}
-        className={`${
-          isCopied ? "bg-[#3d3d3d]" : "bg-black"
-        } w-full md:w-[20%] text-sm text-white rounded-sm px-3 py-2 active:scale-95 hover:bg-[#3d3d3d] transform ease-in duration-200 cursor-pointer`}
-      >
-        {isCopied ? "Copied" : "Copy"}
-      </button>
-    </div>
+          <button
+            onClick={handleCopy}
+            className={`${
+              isCopied ? "bg-[#3d3d3d]" : "bg-black"
+            } w-full md:w-[20%] text-sm text-white rounded-sm px-3 py-2 active:scale-95 hover:bg-[#3d3d3d] transform ease-in duration-200 cursor-pointer`}
+          >
+            {isCopied ? "Copied" : "Copy"}
+          </button>
+        </div>
+      )}
+    </>
   );
 };
 

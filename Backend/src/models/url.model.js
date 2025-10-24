@@ -3,18 +3,18 @@ import mongoose from "mongoose";
 const urlSchema = new mongoose.Schema({
     orignalUrl: {
         type: String,
-        required: true, 
-        unique: true
+        required: true,
     },
     shortUrl: {
         type: String,
-        required: true
+        required: true,
+        unique: true
     },
     user: {
         type: mongoose.Schema.Types.ObjectId
-    }, 
+    },
     counts: {
-        type: Number, 
+        type: Number,
         default: 0
     }
 });

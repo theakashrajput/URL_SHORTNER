@@ -1,18 +1,34 @@
-import dotenvData from "../../config/env.config.js";
 import urlModel from "../models/url.model.js";
-import { generateNanoId } from "../utils/services.js";
+import CustomError from "../utils/customError.js";
 
-export const generateShortURLWithoutUser = async (originalUrl) => {
-    const shortCode = generateNanoId();
-    const shortUrl = `${dotenvData.BASE_URL}/${shortCode}`;
-
-    const urlInstance = await urlModel.create({
-        originalUrl, shortUrl, shortCode
-    });
-    return urlInstance;
-};
+export const saveShortUrl = async (originalUrl, shortUrl, shortCode, userId) => {
+    try {
+        const urlInstance = new urlModel({
+            originalUrl, shortUrl, shortCode
+        });
+        if (userId) {
+            urlInstance.user = userId
+        }
+        const newUrlInstance = await urlInstance.save();
+        return newUrlInstance
+    } catch (err) {
+        throw new CustomError(err.message, 500);
+    }
+}
 
 export const isURLAlreadyExist = async (originalUrl) => {
-    const exist = await urlModel.findOne({ originalUrl });
-    return exist;
+    try {
+        return await urlModel.findOne({ originalUrl });
+    } catch (err) {
+        throw new CustomError(err.message, 500);
+    }
 }
+
+export const isSlugAlreadyUsed = async (userId, slug) => {
+    try {
+        const isSlugExist = await urlModel.findOne({ user: userId, shortCode: slug });
+        return isSlugExist ? true : false
+    } catch (err) {
+        throw new CustomError(err.message, 500);
+    }
+};

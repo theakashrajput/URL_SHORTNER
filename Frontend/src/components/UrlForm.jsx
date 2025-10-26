@@ -2,7 +2,7 @@ import { useState } from "react";
 import { createShortUrl } from "../api/shortUrl.api";
 
 const UrlForm = ({ setShortUrl }) => {
-  const [urlInput, seturlInput] = useState("");
+  const [urlInput, seturlInput] = useState("http://localhost:5173/");
 
   const handleFormSubmit = async (e) => {
     e.preventDefault();

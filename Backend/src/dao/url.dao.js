@@ -14,15 +14,7 @@ export const saveShortUrl = async (originalUrl, shortUrl, shortCode, userId) => 
     } catch (err) {
         throw new CustomError(err.message, 500);
     }
-}
-
-export const isURLAlreadyExist = async (originalUrl) => {
-    try {
-        return await urlModel.findOne({ originalUrl });
-    } catch (err) {
-        throw new CustomError(err.message, 500);
-    }
-}
+};
 
 export const isSlugAlreadyUsed = async (userId, slug) => {
     try {

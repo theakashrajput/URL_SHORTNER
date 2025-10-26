@@ -17,14 +17,14 @@ export const isURLValid = (url) => {
 };
 
 export const jwtTokenSign = (payload) => {
-    const token = jwt.sign(payload, dotenvData.JWT_SECRET, { expiresIn: '7d' });
+    const token = jwt.sign(payload, dotenvData.JWT_SECRET, { expiresIn: '1h' });
     return token
 };
 
 export const verifyToken = (token)=>{
-    const decoded = jwt.verify(token, dotenvData.JWT_SECRET)
+    const decoded = jwt.verify(token, dotenvData.JWT_SECRET);
     return decoded.id;
-}
+};
 
 export const hashPassword = async (password, saltRounds = 10) => {
     if (!password) throw new CustomError('Password is required for hashing', 400);

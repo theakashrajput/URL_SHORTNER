@@ -1,17 +1,13 @@
-import { useState } from 'react'
-import PreviewUrl from './components/PreviewUrl'
-import UrlForm from './components/UrlForm'
+import AuthPage from "./pages/AuthPage";
+import Dashboard from "./pages/Dashboard";
 
 const App = () => {
-
-  const [shortUrl, setShortUrl] = useState("");
-
   return (
-    <div className='h-screen w-full flex flex-col items-center justify-center gap-5 font-[Poppins]'>
-      <UrlForm setShortUrl={setShortUrl} />
-      <PreviewUrl shortUrl={shortUrl} />
+    <div className="h-screen w-full font-[Poppins]">
+      {/* <Dashboard /> */}
+      <AuthPage />
     </div>
-  )
-}
+  );
+};
 
-export default App 
+export default App;

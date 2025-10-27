@@ -8,14 +8,14 @@ export const userRegister = asyncWrapper(async (req, res) => {
 
     if (!userName || !email || !password) throw new CustomError("All fields are required", 400);
 
-    const {token, newUser} = await registerUserService(userName, email, password);
+    const { token, newUser } = await registerUserService(userName, email, password);
 
     res.cookie('token', token, cookieOptions);
 
     res.status(201).json({
         success: true,
         message: "User registered successfully",
-        user: { id: newUser._id, name: newUser.userName, email: newUser.email },
+        user: { id: newUser._id, userName: newUser.userName, email: newUser.email },
     });
 });
 
@@ -30,7 +30,16 @@ export const userLogin = asyncWrapper(async (req, res) => {
 
     res.status(200).json({
         success: true,
-        message: "User fetched successfully",
-        user: { id: user._id, name: user.userName, email: user.email },
+        message: "User logged in successfully",
+        user: { id: user._id, userName: user.userName, email: user.email },
     });
 })
+
+export const isUserLogedIn = (req, res) => {
+    res.status(200).json({ authorized: true, user: req.user });
+}
+
+export const logoutUser = (req, res) => {
+    res.clearCookie('token', cookieOptions);
+    res.json({ success: true, message: "User logged out successfully" });
+}

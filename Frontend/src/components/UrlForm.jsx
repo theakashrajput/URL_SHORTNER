@@ -1,8 +1,8 @@
+import { toast } from "react-toastify";
 import { createShortUrl } from "../api/shortUrl.api";
 import { useForm } from "react-hook-form";
 
 const UrlForm = ({ setShortUrl }) => {
-
   const {
     register,
     reset,
@@ -11,8 +11,9 @@ const UrlForm = ({ setShortUrl }) => {
   } = useForm();
 
   const handleFormSubmit = async (url) => {
-    const shortUrl = await createShortUrl(url);
-    setShortUrl(shortUrl);
+    const res = await createShortUrl(url);
+    setShortUrl(res.shortUrl);
+    toast.success(res?.message);
     reset();
   };
 
@@ -26,23 +27,23 @@ const UrlForm = ({ setShortUrl }) => {
         className="flex flex-col gap-5 md:gap-7"
       >
         <div className="flex flex-col gap-1">
-        <input
-          className="px-3 py-2 md:py-3 rounded-md text-[#5a5959] text-sm md:text-base tracking-wide outline-none bg-[#f1f1f1]"
-          placeholder="Enter full URL"
-          type="text"
-          {...register("originalUrl", { required: "Url is required" })}
-        />
-        {errors.originalUrl && (
-          <span className="pl-1 text-xs text-red-400 tracking-wide leading-none">
-            {errors.originalUrl.message}
-          </span>
-        )}
+          <input
+            className="px-3 py-2 md:py-3 rounded-md text-[#5a5959] text-sm md:text-base tracking-wide outline-none bg-[#f1f1f1]"
+            placeholder="Enter full URL"
+            type="text"
+            {...register("originalUrl", { required: "Url is required" })}
+          />
+          {errors.originalUrl && (
+            <span className="pl-1 text-xs text-red-400 tracking-wide leading-none">
+              {errors.originalUrl.message}
+            </span>
+          )}
         </div>
         <button
           className="bg-blue-500 text-white tracking-wide text-sm md:text-base py-2 md:py-3 rounded-md active:scale-95 hover:bg-blue-600 transform ease-in duration-200 cursor-pointer"
           type="submit"
         >
-          Genrate Short Url
+          Generate Short Url
         </button>
       </form>
     </div>

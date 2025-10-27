@@ -4,15 +4,16 @@ import { ToastContainer } from "react-toastify";
 import MainRoutes from "./routing/MainRoutes.jsx";
 import { BrowserRouter } from "react-router-dom";
 import Nav from "./components/Nav.jsx";
+import AuthProvider from "./context/AuthContext.jsx";
 
 createRoot(document.getElementById("root")).render(
-  <>
+  <AuthProvider>
     <BrowserRouter>
     <Nav />
       <MainRoutes />
       <ToastContainer
         position="top-right"
-        autoClose={1000}
+        autoClose={2000}
         hideProgressBar
         newestOnTop={false}
         closeOnClick={false}
@@ -23,5 +24,5 @@ createRoot(document.getElementById("root")).render(
         theme="light"
       />
     </BrowserRouter>
-  </>
+  </AuthProvider>
 );

@@ -1,8 +1,13 @@
 import { useForm } from "react-hook-form";
 import { registerUserApi } from "../api/auth.api";
-// import { toast } from "react-toastify";
+import { toast } from "react-toastify";
+import { useNavigate } from "react-router-dom";
+import { useContext } from "react";
+import { AuthContext } from "../context/AuthContext";
 
-const Register = ({stateManage}) => {
+const Register = ({ stateManage }) => {
+  const navigate = useNavigate();
+  const { setUser } = useContext(AuthContext);
 
   const {
     register,
@@ -12,8 +17,16 @@ const Register = ({stateManage}) => {
   } = useForm();
 
   const formSubmitHandler = async (user) => {
-      const res = await registerUserApi(user);
-      // toast.success(res.data.message);
+    const res = await registerUserApi(user);
+    if (res?.success) {
+      // Update the user in AuthContext
+      setUser(res.user);
+      toast.success(res?.message);
+      // Navigate to dashboard
+      navigate("/dashboard", { replace: true });
+    } else {
+      toast.error(res?.message || "Registration failed");
+    }
     reset();
   };
 
@@ -27,7 +40,7 @@ const Register = ({stateManage}) => {
           Registe Form
         </h1>
         <div className="flex flex-col gap-1 tracking-wide">
-          <label htmlFor="username" className="text-sm pl-3">
+          <label htmlFor="userName" className="text-sm pl-3">
             Username
           </label>
           <input
@@ -108,8 +121,10 @@ const Register = ({stateManage}) => {
       <p className="text-sm tracking-wide">
         Already have an account?
         <span
-        onClick={()=>stateManage(true)}
-        className="text-blue-400 ml-0.5 hover:underline cursor-pointer" to="/login">
+          onClick={() => stateManage(true)}
+          className="text-blue-400 ml-0.5 hover:underline cursor-pointer"
+          to="/login"
+        >
           Login
         </span>
       </p>

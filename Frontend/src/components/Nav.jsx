@@ -4,7 +4,7 @@ import { Link, NavLink } from "react-router-dom";
 const Nav = () => {
   const [menuOpen, setMenuOpen] = useState(false);
   const menuRef = useRef();
-  const menuIconRef = useRef(); // Add this ref
+  const menuIconRef = useRef();
 
   const menuItems = ["Home", "Login"];
 
@@ -34,31 +34,30 @@ const Nav = () => {
 
   // Format name for URL (replace spaces with hyphens)
   const formatPath = (name) => {
-    if (name === "Login") {
-      return `/auth`;
-    } else if (name === "Home") {
-      return `/`;
-    }
-    // return `/${name.toLowerCase().replace(/\s+/g, "-")}`;
+    if (name === "Login") return `/auth`;
+    if (name === "Home") return `/`;
+    return `/${name.toLowerCase().replace(/\s+/g, "-")}`;
   };
 
   return (
     <>
       <nav className="w-full absolute top-0 left-0 bg-white text-black flex justify-between items-center py-5 px-4 z-30 md:px-8 xl:px-16 border-b-2 border-[#a2ada1]/40">
-        <div className="flex items-center">
+        {/* left: menu icon + logo */}
+        <div className="flex items-center gap-3">
           <i
-            ref={menuIconRef} // Attach ref here
+            ref={menuIconRef}
             onClick={handleMenuToggle}
             className="ri-menu-line text-xl font-semibold md:hidden cursor-pointer"
           ></i>
 
-          <h2 className="text-2xl font-extrabold ml-3 md:ml-0 md:text-2xl lg:text-3xl font-[Gilroy]">
+          <h2 className="text-2xl font-extrabold md:text-2xl lg:text-3xl font-[Gilroy]">
             <Link to="/">URL SHORTNER</Link>
           </h2>
         </div>
 
-        <div className="flex gap-5 lg:w-1/2 md:w-2/5 items-center justify-end">
-          <div className="hidden md:flex xl:gap-5 gap-3 items-center lg:text-base text-sm lg:ml-10 xl:ml-12 md:ml-8">
+        {/* center: links (visible on md and above, centered) */}
+        <div className="hidden md:flex flex-1 justify-center">
+          <div className="flex gap-8 items-center lg:text-base text-sm">
             {menuItems.map((item) => (
               <NavLink
                 key={item}
@@ -71,26 +70,26 @@ const Nav = () => {
               </NavLink>
             ))}
           </div>
-          {/* <i className="md:hidden ri-search-line text-2xl font-semibold"></i>
-          <div className="hidden md:block bg-[#F0F0F0] w-[85%] px-3 py-2 rounded-4xl">
-            <i className="ri-search-line lg:text-xl text-sm text-[#A3A3A3]"></i>
-            <input
-              type="text"
-              className="inline-block w-[85%] lg:text-base outline-none lg:ml-3 ml-1 bg-transparent"
-              placeholder="Search for products..."
-            />
-          </div>
-          <i className="ri-shopping-cart-line text-xl font-semibold lg:text-2xl"></i>
-          <i className="ri-user-3-line text-xl font-semibold lg:text-2xl"></i> */}
+        </div>
+
+        {/* right: Dashboard button (visible on all sizes, on right side) */}
+        <div className="ml-4 flex items-center">
+          <NavLink
+            to="/dashboard"
+            className="inline-flex items-center justify-center bg-black text-white px-4 py-2 rounded-md text-sm font-semibold hover:opacity-90"
+            onClick={() => setMenuOpen(false)}
+          >
+            Dashboard
+          </NavLink>
         </div>
       </nav>
 
-      {/* Mobile menu */}
+      {/* Mobile menu: only links (scrollable if many) */}
       <div
         ref={menuRef}
-        className={`w-full bg-white flex flex-col gap-3 pt-2 pb-3 px-1 absolute z-20 left-0 duration-500 ease-out ${
-          menuOpen ? "top-16" : "-top-48"
-        }`}
+        className={`w-full bg-white flex flex-col gap-3 pt-2 pb-3 px-3 absolute z-20 left-0 duration-500 ease-out ${
+          menuOpen ? "top-16" : "-top-60"
+        } max-h-[60vh] overflow-y-auto`}
       >
         <hr className="w-[95%] mx-auto text-[#dbdbdb]" />
         {menuItems.map((item) => (

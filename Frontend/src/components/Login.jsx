@@ -1,9 +1,14 @@
 import { useForm } from "react-hook-form";
-import { Link } from "react-router-dom";
 import { toast } from "react-toastify";
 import { loginUserApi } from "../api/auth.api";
+import { useNavigate } from "react-router-dom";
+import { useContext } from "react";
+import { AuthContext } from "../context/AuthContext";
 
 const Login = ({ stateManage }) => {
+  const navigate = useNavigate();
+  const { setUser } = useContext(AuthContext);
+
   const {
     register,
     reset,
@@ -13,7 +18,16 @@ const Login = ({ stateManage }) => {
 
   const formSubmitHandler = async (user) => {
     const res = await loginUserApi(user);
-    // toast.success(res.data.message);
+    console.log(res);
+    if (res?.success) {
+      // Update the user in AuthContext
+      setUser(res.user);
+      toast.success(res?.message);
+      // Navigate to dashboard
+      navigate("/dashboard", { replace: true });
+    } else {
+      toast.error(res?.message || "Login failed");
+    }
     reset();
   };
 

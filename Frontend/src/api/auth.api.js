@@ -1,10 +1,8 @@
-import axios from "../utils/axiosInstance";
+import axios from "../utils/axiosInstance.js";checkUserLoggedIn
 
 export const loginUserApi = async (user) => {
     try {
-        const { data } = await axios.post("/api/auth/login", user, {
-            withCredentials: true,
-        });
+        const { data } = await axios.post("/api/auth/login", user, { silent: true });
         return data;
     } catch (err) {
         return {
@@ -16,7 +14,7 @@ export const loginUserApi = async (user) => {
 
 export const logoutUserApi = async () => {
     try {
-        const { data } = await axios.post("/api/auth/logout");
+        const { data } = await axios.post("/api/auth/logout", { silent: true });
         return data;
     } catch (err) {
         return {
@@ -28,9 +26,7 @@ export const logoutUserApi = async () => {
 
 export const registerUserApi = async (user) => {
     try {
-        const { data } = await axios.post("/api/auth/register", user, {
-            withCredentials: true,
-        });
+        const { data } = await axios.post("/api/auth/register", user, { silent: true });
         return data;
     } catch (err) {
         return {

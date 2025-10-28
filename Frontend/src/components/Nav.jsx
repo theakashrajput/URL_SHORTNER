@@ -33,14 +33,14 @@ const Nav = () => {
                 logout();
                 navigate("/", { replace: true });
               }}
-              className="bg-red-500 px-4 py-1 rounded hover:bg-red-600 cursor-pointer"
+              className="bg-red-500 px-4 py-1 rounded hover:bg-red-600 cursor-pointer active:scale-95 ease-in transform duration-150"
             >
               Logout
             </button>
           ) : (
             <Link
               to="/auth"
-              className="bg-blue-500 px-4 py-1 rounded hover:bg-blue-600 cursor-pointer"
+              className="bg-blue-500 px-4 py-1 rounded hover:bg-blue-600 cursor-pointer active:scale-95 ease-in transform duration-150"
             >
               Login
             </Link>
@@ -77,7 +77,7 @@ const Nav = () => {
                 setOpen(false);
                 navigate("/", { replace: true });
               }}
-              className="bg-red-500 px-4 py-1 rounded hover:bg-red-600 cursor-pointer"
+              className="bg-red-500 px-4 py-1 rounded hover:bg-red-600 cursor-pointer active:scale-95 ease-in transform duration-150"
             >
               Logout
             </button>

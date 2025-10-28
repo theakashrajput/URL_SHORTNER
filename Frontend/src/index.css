@@ -1,5 +1,9 @@
 @import "tailwindcss";
 
+#root{
+  position: relative;
+}
+
 @media (min-width: 678px) {
     .scorollbar-hide::-webkit-scrollbar {
         display: none;

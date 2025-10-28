@@ -7,7 +7,7 @@ import { AuthContext } from "../context/AuthContext";
 
 const Login = ({ stateManage }) => {
   const navigate = useNavigate();
-  const { setUser } = useContext(AuthContext);
+  const { login } = useContext(AuthContext);
 
   const {
     register,
@@ -18,10 +18,9 @@ const Login = ({ stateManage }) => {
 
   const formSubmitHandler = async (user) => {
     const res = await loginUserApi(user);
-    console.log(res);
     if (res?.success) {
       // Update the user in AuthContext
-      setUser(res.user);
+      login(res.user);
       toast.success(res?.message);
       // Navigate to dashboard
       navigate("/dashboard", { replace: true });

@@ -11,7 +11,13 @@ axiosInstance.interceptors.response.use(
   (response) => response,
   (error) => {
     const message = error.response?.data?.message || "Server error";
-    toast.error(message);
+
+
+    // If request with silent then toast not show
+    if(!error.config?.silent){
+      toast.error(message);
+    }
+
     return Promise.reject(error);
   }
 );

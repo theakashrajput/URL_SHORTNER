@@ -9,13 +9,15 @@ export const userAuthMiddleware = async (req, res, next) => {
     if (!token) return res.status(401).json({
         success: false,
         message: "Unauthorized"
-    }
-    );
+    });
 
     try {
         const decoded = await verifyToken(token);
         const user = await findUserById(decoded);
-        if (!user) return res.status(401).json({ message: "Unauthorized" });
+        if (!user) return res.status(401).json({
+            success: false,
+            message: "Unauthorized"
+        });
         req.user = user;
         next();
     } catch (err) {

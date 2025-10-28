@@ -2,8 +2,16 @@ import { asyncWrapper } from "../utils/asyncWrapper.js"
 import CustomError from "../utils/customError.js";
 import { loginUserService, registerUserService } from "../services/auth.service.js";
 import { cookieOptions } from "../../config/config.js";
+import { validationResult } from "express-validator";
 
 export const userRegister = asyncWrapper(async (req, res) => {
+    // Check validation results
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+        const errorMessages = errors.array().map(err => err.msg).join(', ');
+        throw new CustomError(errorMessages, 400);
+    }
+
     const { userName, email, password } = req.body;
 
     if (!userName || !email || !password) throw new CustomError("All fields are required", 400);
@@ -36,7 +44,10 @@ export const userLogin = asyncWrapper(async (req, res) => {
 })
 
 export const isUserLogedIn = (req, res) => {
-    res.status(200).json({ authorized: true, user: req.user });
+    res.status(200).json({
+        authorized: true,
+        user: { id: req.user._id, userName: req.user.userName, email: req.user.email }
+    });
 }
 
 export const logoutUser = (req, res) => {

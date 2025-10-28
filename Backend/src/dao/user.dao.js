@@ -1,11 +1,12 @@
 import userModel from "../models/user.model.js";
 import CustomError from "../utils/customError.js";
 import { hashPassword } from "../utils/helper.js";
+import mongoose from "mongoose";
 
 export const isUserExist = async (email) => {
     try {
         const userExist = await userModel.exists({ email });
-        
+
         return userExist;
     } catch (err) {
         throw new CustomError("Database lookup failed", 500);
@@ -36,9 +37,14 @@ export const findUser = async (email) => {
 
 export const findUserById = async (id) => {
     try {
+        // Validate id is a valid ObjectId
+        if (!id || !mongoose.Types.ObjectId.isValid(id)) {
+            throw new CustomError("Invalid user ID", 400);
+        }
+
         const user = await userModel.findById(id);
         return user;
     } catch (err) {
-        throw new CustomError(err.message || "Database Error", 500)
+        throw new CustomError(err.message || "Database Error", err.statusCode || 500)
     }
 }

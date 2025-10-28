@@ -1,5 +1,5 @@
 import express from "express";
-import { userRegister, userLogin, isUserLogedIn } from "../controllers/userAuth.controller.js";
+import { userRegister, userLogin, isUserLogedIn, logoutUser } from "../controllers/userAuth.controller.js";
 import { userAuthMiddleware } from "../middlewares/auth.middleware.js";
 import { body } from "express-validator";
 
@@ -11,6 +11,7 @@ router.post("/register", [
     body("password").trim().isLength({ min: 6 }).withMessage("Min 6 chars")
 ], userRegister);
 router.post("/login", userLogin);
+router.post("/logout", logoutUser);
 router.get("/check", userAuthMiddleware, isUserLogedIn);
 
 export default router;

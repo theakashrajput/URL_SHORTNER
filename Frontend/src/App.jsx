@@ -1,11 +1,9 @@
-import AuthPage from "./pages/AuthPage";
-import Dashboard from "./pages/Dashboard";
+import MainRoutes from "./routing/MainRoutes";
 
 const App = () => {
   return (
     <div className="h-screen w-full font-[Poppins]">
-      {/* <Dashboard /> */}
-      <AuthPage />
+      <MainRoutes />
     </div>
   );
 };

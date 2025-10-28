@@ -12,9 +12,13 @@ const UrlForm = ({ setShortUrl }) => {
 
   const handleFormSubmit = async (url) => {
     const res = await createShortUrl(url);
-    setShortUrl(res.shortUrl);
-    toast.success(res?.message);
-    reset();
+    if (res?.success) {
+      setShortUrl(res.shortUrl);
+      toast.success(res?.message);
+      reset();
+    } else {
+      toast.error(res?.message || "Failed to create short URL");
+    }
   };
 
   return (

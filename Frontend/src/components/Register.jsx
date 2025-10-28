@@ -7,7 +7,7 @@ import { AuthContext } from "../context/AuthContext";
 
 const Register = ({ stateManage }) => {
   const navigate = useNavigate();
-  const { setUser } = useContext(AuthContext);
+  const { login } = useContext(AuthContext);
 
   const {
     register,
@@ -20,7 +20,7 @@ const Register = ({ stateManage }) => {
     const res = await registerUserApi(user);
     if (res?.success) {
       // Update the user in AuthContext
-      setUser(res.user);
+      login(res.user);
       toast.success(res?.message);
       // Navigate to dashboard
       navigate("/dashboard", { replace: true });
